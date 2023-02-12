@@ -9,6 +9,7 @@ export default class ProfilesController {
 
     const userId = auth.use('api').user!.id
     const email = auth.use('api').user!.email
+
     const payload = await request.validate(ProfileValidator)
 
     try{
@@ -24,11 +25,23 @@ export default class ProfilesController {
 
     }catch(e){
       response.status(409).send({
-        message:"For one user only one profile can be made",
-        error:e
+        message:"Profile Already Existed !",
       })
     }
   }
 
+
+  public async getUser({response,auth}:HttpContextContract){
+
+    const userId = auth.use('api').user!.id
+    try{
+      const profile = await Profile.findByOrFail('user_id', userId)
+      return response.status(200).send(profile)
+    }catch(e){
+      return response.status(404).send({
+        Message:"Profile Not Found!"
+      })
+    }
+  }
 
 }
