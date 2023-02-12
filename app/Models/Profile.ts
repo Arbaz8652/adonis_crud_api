@@ -21,7 +21,7 @@ export default class Profile extends BaseModel {
   @column({serializeAs:null})
   public contactNumber: string
 
-  @column.dateTime({serialize:(value:DateTime)=>value.toFormat('dd LLL yyyy')})
+  @column()
   public dateOfBirth:DateTime
 
 
