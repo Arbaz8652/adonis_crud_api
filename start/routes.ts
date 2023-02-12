@@ -20,5 +20,5 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.post('/user/profile','ProfilesController.create' )
-Route.post('/user','ProfilesController.createUser')
+Route.post('/register','AuthController.register' )
+Route.post('/login','AuthController.login')
