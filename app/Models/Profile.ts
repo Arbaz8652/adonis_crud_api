@@ -6,7 +6,7 @@ export default class Profile extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
-  @column()
+  @column({serializeAs:null})
   public userId:number
 
   @column()
@@ -18,17 +18,17 @@ export default class Profile extends BaseModel {
   @column()
   public gender:string
 
-  @column()
+  @column({serializeAs:null})
   public contactNumber: string
 
-  @column()
+  @column.dateTime({serialize:(value:DateTime)=>value.toFormat('dd LLL yyyy')})
   public dateOfBirth:DateTime
 
 
-  @column.dateTime({ autoCreate: true })
+  @column.dateTime({ serializeAs:null,autoCreate: true })
   public createdAt: DateTime
 
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  @column.dateTime({serializeAs:null, autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
   @belongsTo(()=>User,{

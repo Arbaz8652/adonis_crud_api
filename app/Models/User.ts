@@ -15,10 +15,10 @@ export default class User extends BaseModel {
   public password:string
 
 
-  @column.dateTime({ autoCreate: true ,serialize:(value:DateTime)=>value.toFormat('dd LLL yyyy')})
+  @column.dateTime({serializeAs:null, autoCreate: true ,serialize:(value:DateTime)=>value.toFormat('dd LLL yyyy')})
   public createdAt: DateTime
 
-  @column.dateTime({ autoCreate: true, autoUpdate: true,serialize:(value:DateTime)=>value.toFormat('dd LLL yyyy') })
+  @column.dateTime({serializeAs:null, autoCreate: true, autoUpdate: true,serialize:(value:DateTime)=>value.toFormat('dd LLL yyyy') })
   public updatedAt: DateTime
 
   @hasOne(() => Profile, {
