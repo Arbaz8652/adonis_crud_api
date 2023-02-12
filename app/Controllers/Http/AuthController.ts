@@ -30,4 +30,18 @@ export default class AuthController {
     }  
   }
 
+
+  public async logout({response,auth}:HttpContextContract){
+    try{
+      await auth.use('api').logout()
+      return response.status(200).send({
+        message:"Logged Out!"
+      })
+    }catch(error){
+      return response.conflict({
+        Message:'Request could not be completed due to a conflict with the current state of the target resource.'
+      })
+    }
+  }
+
 }
