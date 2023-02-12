@@ -10,7 +10,7 @@ export default class Profiles extends BaseSchema {
       table.string('full_name').notNullable()
       table.string('email').notNullable()
       table.string('gender').notNullable()
-      table.string('contact_number').notNullable()
+      table.string('contact_number').notNullable().unique()
       table.string('date_of_birth').notNullable()
       table.timestamps(true,true)
     })
