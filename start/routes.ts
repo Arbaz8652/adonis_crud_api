@@ -27,4 +27,5 @@ Route.group(()=>{
   Route.post('/profile','ProfilesController.createUserProfile')
   Route.get('/profile','ProfilesController.getUser')
   Route.put('/profile/:id','ProfilesController.updateProfile')
+  Route.delete('/profile/:mobile','ProfilesController.deleteUserAndProfile')
 }).prefix('/user').middleware('auth')
