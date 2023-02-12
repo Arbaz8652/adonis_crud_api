@@ -24,6 +24,7 @@ Route.post('/register','AuthController.register' )
 Route.post('/login','AuthController.login')
 
 Route.group(()=>{
-  Route.post('/profile','ProfilesController.createUser')
+  Route.post('/profile','ProfilesController.createUserProfile')
   Route.get('/profile','ProfilesController.getUser')
+  Route.put('/profile/:id','ProfilesController.updateProfile')
 }).prefix('/user').middleware('auth')
