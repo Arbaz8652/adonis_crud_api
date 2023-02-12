@@ -1,5 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Profile from 'App/Models/Profile'
+import User from 'App/Models/User'
 import ProfileValidator from 'App/Validators/ProfileValidator'
 
 export default class ProfilesController {
@@ -71,5 +72,25 @@ export default class ProfilesController {
     }
 
   }
+
+
+  public async deleteUserAndProfile({response,params,auth}:HttpContextContract){
+    const userId = auth.use('api').user!.id
+    try{
+      const profile = await Profile.findByOrFail('contact_number',params.mobile)
+      const user = await User.findOrFail(userId)
+
+      await auth.logout()
+      await profile.delete()
+      await user.delete()
+    
+      return response.status(200).send({message:"Profile and User hase been deleted..!",...profile.$original})
+    }catch(error){
+      return response.notFound({
+        Message:"Profile Not Found!"
+      })
+    }
+  }
+
 
 }
