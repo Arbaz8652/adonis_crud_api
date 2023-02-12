@@ -19,6 +19,9 @@ export default class Profile extends BaseModel {
   public gender:string
 
   @column()
+  public contactNumber: string
+
+  @column()
   public dateOfBirth:DateTime
 
 
