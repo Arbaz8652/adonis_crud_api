@@ -25,4 +25,5 @@ Route.post('/login','AuthController.login')
 
 Route.group(()=>{
   Route.post('/profile','ProfilesController.createUser')
+  Route.get('/profile','ProfilesController.getUser')
 }).prefix('/user').middleware('auth')
