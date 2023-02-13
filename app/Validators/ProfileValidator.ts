@@ -24,15 +24,19 @@ export default class ProfileValidator {
    *    ```
    */
   public schema = schema.create({
-    full_name:schema.string({},[
+    full_name:schema.string.optional({},[
       rules.maxLength(30),
-      rules.minLength(3)
+      rules.minLength(3),
+      rules.regex(/^[a-zA-Z ]{3,30}$/)
+
     ]),
-    contact_number:schema.string([
-      rules.regex(/^([+]\d{2})?\d{10}$/)
+    contact_number:schema.string.optional([
+      rules.regex(/^([+]\d{2})?\d{10}$/),
+      rules.unique({ table: 'profiles', column: 'contact_number' }),
+
     ]),
-    gender:schema.enum( ['MALE', 'FEMALE'] as const),
-    date_of_birth:schema.date({
+    gender:schema.enum.optional( ['MALE', 'FEMALE'] as const),
+    date_of_birth:schema.date.optional({
       format:'dd-MM-yyyy'
     })
 
@@ -49,5 +53,7 @@ export default class ProfileValidator {
    * }
    *
    */
-  public messages: CustomMessages = {}
+  public messages: CustomMessages = {
+
+  }
 }
