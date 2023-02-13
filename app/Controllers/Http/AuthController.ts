@@ -26,7 +26,9 @@ export default class AuthController {
       const token = await auth.use('api').attempt(email, password)
       return response.send(token.toJSON())
     } catch {
-      return response.unauthorized('Invalid credentials')
+      return response.unauthorized({
+        Message:'Invalid credentials'
+      })
     }  
   }
 
