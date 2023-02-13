@@ -9,7 +9,7 @@ export default class ProfilesController {
 
   public async createUserProfile({request, response,auth}:HttpContextContract){
 
-    const userId = auth.use('api').user!.id
+    const userId = auth.use('api').user!.id // auth.use('api) will return instance of Auth and ! mark represents id can never be null or undefined
     const email = auth.use('api').user!.email
     const payload = await request.validate(ProfileValidator)
 
@@ -49,6 +49,7 @@ export default class ProfilesController {
 
   public async updateProfile({request,response,params}:HttpContextContract){
 
+    
     const payload = await request.validate(UpdateValidator)
     try{
       const profile = await  Profile.findByOrFail("contact_number",params.id)
@@ -65,13 +66,9 @@ export default class ProfilesController {
       if(payload.date_of_birth){
         profile.dateOfBirth=payload.date_of_birth
       }
-      console.log('profile :>> ', profile);
-
-      profile.update()
-
+      // However, updating records directly does not trigger any model hooks and neither auto-update the timestamps.
+      profile.save()
       return response.send(profile) 
-
-
     }catch(error){
       response.notFound({
         Message:"Profile Not Found!"
@@ -90,7 +87,7 @@ export default class ProfilesController {
       await profile.delete()
       await user.delete()
     
-      return response.status(200).send({message:"Profile and User hase been deleted..!",...profile.$original})
+      return response.status(200).send({message:"Profile and User has been deleted..!",...profile.$original})
     }catch(error){
       return response.notFound({
         Message:"Profile Not Found!"
