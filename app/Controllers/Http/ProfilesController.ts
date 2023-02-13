@@ -11,7 +11,6 @@ export default class ProfilesController {
 
     const userId = auth.use('api').user!.id
     const email = auth.use('api').user!.email
-
     const payload = await request.validate(ProfileValidator)
 
     try{
@@ -48,29 +47,16 @@ export default class ProfilesController {
     }
   }
 
-
-
-
-
-
-
-
-
-
   public async updateProfile({request,response,params}:HttpContextContract){
 
     const payload = await request.validate(UpdateValidator)
-    
-    
     try{
       const profile = await  Profile.findByOrFail("contact_number",params.id)
       
       if(payload.full_name){
-        console.log('payload.full_name :>> ', payload.full_name);
         profile.fullName=payload.full_name
       }
       if(payload.gender){
-        console.log('payload.gender :>> ', payload.gender);
         profile.gender=payload.gender
       }
       if(payload.contact_number){
@@ -79,9 +65,9 @@ export default class ProfilesController {
       if(payload.date_of_birth){
         profile.dateOfBirth=payload.date_of_birth
       }
+      console.log('profile :>> ', profile);
 
-   
-      profile.save()
+      profile.update()
 
       return response.send(profile) 
 
@@ -93,18 +79,6 @@ export default class ProfilesController {
     }
 
   }
-
-
-
-
-
-
-
-
-
-
-
-
 
   public async deleteUserAndProfile({response,params,auth}:HttpContextContract){
     const userId = auth.use('api').user!.id
