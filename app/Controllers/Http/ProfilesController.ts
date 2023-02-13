@@ -2,6 +2,7 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Profile from 'App/Models/Profile'
 import User from 'App/Models/User'
 import ProfileValidator from 'App/Validators/ProfileValidator'
+import UpdateValidator from 'App/Validators/UpdateValidator'
 
 export default class ProfilesController {
 
@@ -14,7 +15,7 @@ export default class ProfilesController {
     const payload = await request.validate(ProfileValidator)
 
     try{
-      //becouse userId must be unique user cannot create his profile twice
+      //because userId must be unique user cannot create his profile twice
       const newProfile = await Profile.create({
         userId:userId,
         fullName:payload.full_name,
@@ -49,17 +50,37 @@ export default class ProfilesController {
 
 
 
+
+
+
+
+
+
+
   public async updateProfile({request,response,params}:HttpContextContract){
 
-    const payload = await request.validate(ProfileValidator)
-
+    const payload = await request.validate(UpdateValidator)
+    
+    
     try{
       const profile = await  Profile.findByOrFail("contact_number",params.id)
+      
+      if(payload.full_name){
+        console.log('payload.full_name :>> ', payload.full_name);
+        profile.fullName=payload.full_name
+      }
+      if(payload.gender){
+        console.log('payload.gender :>> ', payload.gender);
+        profile.gender=payload.gender
+      }
+      if(payload.contact_number){
+        profile.contactNumber=payload.contact_number
+      }
+      if(payload.date_of_birth){
+        profile.dateOfBirth=payload.date_of_birth
+      }
 
-      profile.fullName=request.input('full_name')
-      profile.gender=payload.gender
-      profile.contactNumber=payload.contact_number
-      profile.dateOfBirth=payload.date_of_birth
+   
       profile.save()
 
       return response.send(profile) 
@@ -72,6 +93,17 @@ export default class ProfilesController {
     }
 
   }
+
+
+
+
+
+
+
+
+
+
+
 
 
   public async deleteUserAndProfile({response,params,auth}:HttpContextContract){
