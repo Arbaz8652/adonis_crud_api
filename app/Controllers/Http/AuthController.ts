@@ -9,9 +9,9 @@ export default class AuthController {
     const data =await request.validate(RegisterValidator)
     try{
       const user = await User.create(data)
-      response.created(user)
+      return response.created(user)
     }catch(error){
-      response.status(503).send({
+      return response.status(503).send({
         Message:"Service Unavailable"
       })
     }
