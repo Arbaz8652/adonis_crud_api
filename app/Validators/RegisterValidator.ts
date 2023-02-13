@@ -29,7 +29,8 @@ export default class RegisterValidator {
       rules.unique({table:'users',column:'email'})
     ]),
     password:schema.string({},[
-      rules.confirmed()
+      rules.confirmed(),
+      rules.regex(/^[a-zA-Z0-9!@#$%^&*]{8,16}$/)
     ])
   })
   /**
@@ -44,7 +45,7 @@ export default class RegisterValidator {
    *
    */
   public messages: CustomMessages = {
-    email:"User already exists with this email"
-    
+    "email.unique":"User already exists with this email",
+    "password.regex":"Invalid Password"
   }
 }
