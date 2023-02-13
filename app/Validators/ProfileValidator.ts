@@ -24,19 +24,19 @@ export default class ProfileValidator {
    *    ```
    */
   public schema = schema.create({
-    full_name:schema.string.optional({},[
+    full_name:schema.string({},[
       rules.maxLength(30),
       rules.minLength(3),
       rules.regex(/^[a-zA-Z ]{3,30}$/)
 
     ]),
-    contact_number:schema.string.optional([
+    contact_number:schema.string([
       rules.regex(/^([+]\d{2})?\d{10}$/),
       rules.unique({ table: 'profiles', column: 'contact_number' }),
 
     ]),
-    gender:schema.enum.optional( ['MALE', 'FEMALE'] as const),
-    date_of_birth:schema.date.optional({
+    gender:schema.enum( ['MALE', 'FEMALE'] as const),
+    date_of_birth:schema.date({
       format:'dd-MM-yyyy'
     })
 
