@@ -1,4 +1,3 @@
-
 import Route from '@ioc:Adonis/Core/Route'
 
 Route.post('/register','AuthController.register' )
@@ -14,5 +13,4 @@ Route.group(()=>{
   }).prefix('/user')
 
   Route.post('/logout','AuthController.logout')
-  
 }).middleware('auth')

@@ -14,7 +14,6 @@ export default class User extends BaseModel {
   @column({serializeAs:null})
   public password:string
 
-
   @column.dateTime({serializeAs:null, autoCreate: true ,serialize:(value:DateTime)=>value.toFormat('dd LLL yyyy')})
   public createdAt: DateTime
 

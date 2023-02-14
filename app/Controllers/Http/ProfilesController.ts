@@ -5,16 +5,12 @@ import ProfileValidator from 'App/Validators/ProfileValidator'
 import UpdateValidator from 'App/Validators/UpdateValidator'
 
 export default class ProfilesController {
-
-
   public async createUserProfile({request, response,auth}:HttpContextContract){
-
-    const userId = auth.use('api').user?.id // auth.use('api) will return instance of Auth and ! mark represents id can never be null or undefined
+    const userId = auth.use('api').user?.id 
     const email = auth.use('api').user?.email
     const payload = await request.validate(ProfileValidator)
 
     try{
-      //because userId must be unique user cannot create his profile twice
       const newProfile = await Profile.create({
         userId:userId,
         fullName:payload.full_name,
@@ -24,7 +20,6 @@ export default class ProfilesController {
         dateOfBirth: payload.date_of_birth
       })
       response.created(newProfile)
-
     }catch(e){
       response.send({
         message:"Profile Already Existed !",
@@ -33,9 +28,7 @@ export default class ProfilesController {
     }
   }
 
-
   public async getUser({response,auth}:HttpContextContract){
-
     const userId = auth.use('api').user!.id
     try{
       const profile = await Profile.findByOrFail('user_id', userId)
@@ -48,12 +41,9 @@ export default class ProfilesController {
   }
 
   public async updateProfile({request,response,params}:HttpContextContract){
-
-    
     const payload = await request.validate(UpdateValidator)
     try{
-      const profile = await  Profile.findByOrFail("contact_number",params.id)
-      
+      const profile = await  Profile.findByOrFail("contact_number",params.id) 
       if(payload.full_name){
         profile.fullName=payload.full_name
       }
@@ -66,7 +56,6 @@ export default class ProfilesController {
       if(payload.date_of_birth){
         profile.dateOfBirth=payload.date_of_birth
       }
-      // However, updating records directly does not trigger any model hooks and neither auto-update the timestamps.
       profile.save()
       return response.send(profile) 
     }catch(error){
@@ -74,7 +63,6 @@ export default class ProfilesController {
         Message:"Profile Not Found!"
       })
     }
-
   }
 
   public async deleteUserAndProfile({response,params,auth}:HttpContextContract){
@@ -82,11 +70,9 @@ export default class ProfilesController {
     try{
       const profile = await Profile.findByOrFail('contact_number',params.mobile)
       const user = await User.findOrFail(userId)
-
       await auth.logout()
       await profile.delete()
       await user.delete()
-    
       return response.status(200).send({message:"Profile and User has been deleted..!",...profile.$original})
     }catch(error){
       return response.notFound({
@@ -94,6 +80,5 @@ export default class ProfilesController {
       })
     }
   }
-
-
+  
 }

@@ -24,7 +24,6 @@ export default class Profile extends BaseModel {
   @column()
   public dateOfBirth:DateTime
 
-
   @column.dateTime({ serializeAs:null,autoCreate: true })
   public createdAt: DateTime
 
