@@ -9,8 +9,8 @@ export default class ProfilesController {
 
   public async createUserProfile({request, response,auth}:HttpContextContract){
 
-    const userId = auth.use('api').user!.id // auth.use('api) will return instance of Auth and ! mark represents id can never be null or undefined
-    const email = auth.use('api').user!.email
+    const userId = auth.use('api').user?.id // auth.use('api) will return instance of Auth and ! mark represents id can never be null or undefined
+    const email = auth.use('api').user?.email
     const payload = await request.validate(ProfileValidator)
 
     try{
