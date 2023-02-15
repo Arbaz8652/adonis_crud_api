@@ -2,9 +2,7 @@ import { schema, CustomMessages,rules } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class RegisterValidator {
-  constructor(protected ctx: HttpContextContract) {
-
-  }
+  constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
     email:schema.string({},[
@@ -18,6 +16,7 @@ export default class RegisterValidator {
   })
  
   public messages: CustomMessages = {
+    "email.email":"Invalid email address",
     "email.unique":"User already exists with this email",
     "password.regex":"Invalid Password"
   }
