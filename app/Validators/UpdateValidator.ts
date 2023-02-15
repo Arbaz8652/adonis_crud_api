@@ -5,21 +5,21 @@ export default class UpdateValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    full_name:schema.string({},[
+    full_name:schema.string.optional({},[
       rules.maxLength(30),
       rules.minLength(3),
       rules.regex(/^[a-zA-Z ]{3,30}$/),
     ]),
-    email:schema.string({},[
+    email:schema.string.optional({},[
       rules.email(),
       rules.unique({table:'profiles',column:'email'})
     ]),
-    contact_number:schema.string([
+    contact_number:schema.string.optional([
       rules.regex(/^([+]\d{2})?\d{10}$/),
       rules.unique({ table: 'profiles', column: 'contact_number' }),
     ]),
-    gender:schema.enum( ['MALE', 'FEMALE'] as const),
-    date_of_birth:schema.date({format:'dd-MM-yyyy'})
+    gender:schema.enum.optional( ['MALE', 'FEMALE'] as const),
+    date_of_birth:schema.date.optional({format:'dd-MM-yyyy'})
   })
 
   public messages: CustomMessages = {
